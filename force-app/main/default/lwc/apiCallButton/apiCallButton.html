@@ -7,11 +7,13 @@
             </template>
             <template if:true={showCSPs}>
                 <lightning-formatted-text class="slds-p-left_medium" value="Success! "></lightning-formatted-text>
-                <a href={cspRelatedListUrl}>Click here to see new and existing Church School Partnerships.</a>
+                <br>
+                <a href=https://lovinghouston--partial.lightning.force.com/lightning/r/Dashboard/01Z3l000001IG0fEAG/view>Click here to see new and existing Church School Partnerships.</a>
             </template>
             <template if:true={noCSPs}>
                 <lightning-formatted-text class="slds-p-left_medium" value="Maximum number (20) of Churches have already been found. "></lightning-formatted-text>
-                <a href={cspRelatedListUrl}>Click here to see existing Church School Partnerships.</a>
+                <br>
+                <a href=https://lovinghouston--partial.lightning.force.com/lightning/r/Dashboard/01Z3l000001IG0fEAG/view>Click here to see existing Church School Partnerships.</a>
             </template>
             <template if:true={hasError}>
                 <lightning-formatted-text class="slds-p-left_medium" style="color: red;" value={errorMessage}></lightning-formatted-text>

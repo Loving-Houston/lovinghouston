@@ -30,7 +30,7 @@ public class GooglePlaces {
             
         // Raw churches will be inserted
         churchesNeedCSP.addAll(GooglePlacesDML.createProcessedChurches(processedChurches.get('Non-dupes')));
-        List<Church_School_Partnership__c> csps = GooglePlacesDML.createPotentialCSPs(churchesNeedCSP, account);
+        List<Church_School_Partnership__c> csps = GooglePlacesDML.createGoogleGeneratedCSPs(churchesNeedCSP, account);
         return wrapCSPs(csps);
     }
 

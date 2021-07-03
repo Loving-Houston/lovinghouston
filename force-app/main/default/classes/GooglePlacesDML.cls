@@ -68,7 +68,7 @@ public with sharing class GooglePlacesDML {
 
     }
 
-    public static List<Church_School_Partnership__c> createPotentialCSPs (List<Account> churches, Id account) {
+    public static List<Church_School_Partnership__c> createGoogleGeneratedCSPs (List<Account> churches, Id account) {
         
         if (churches.size() == 0) {
             System.debug('20 closest Churches have already been found and created');
@@ -82,7 +82,7 @@ public with sharing class GooglePlacesDML {
             System.debug('Creating partnership for ' + church);
             partnership.Church_Account__c = church.Id;
             partnership.School_Account__c = account;
-            partnership.Status__c = 'Potential';
+            partnership.Status__c = 'Google-Generated';
             // GooglePlacesUtility.calculateDistance(school, church);
             // partnership.Church_Status__c = 'Not Ready Yet';
             partnerships.add(partnership);

@@ -218,7 +218,7 @@ private with sharing class GooglePlaces_TEST {
             Church_School_Partnership__c csp = new Church_School_Partnership__c();
             csp.Church_Account__c = churches[i].Id;
             csp.School_Account__c = schools[i].Id;
-            csp.Status__c = 'Potential';
+            csp.Status__c = 'Google-Generated';
             csps.add(csp);
         }
 
