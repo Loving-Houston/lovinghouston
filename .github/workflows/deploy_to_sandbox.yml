@@ -2,6 +2,9 @@ name: Deploy to Sandbox
 
 on: [push]
 
+env:
+  CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
+  CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
 
 jobs:
     deploy_to_sandbox:
@@ -9,15 +12,35 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-          - name: Checkout Repo
-            uses: actions/checkout@master
-            with:
-               ref: ${{ github.ref }}
+#           - name: Checkout Repo
+#             uses: actions/checkout@master
+#             with:
+#                ref: ${{ github.ref }}
 
-          - uses: sfdx-actions/setup-sfdx@v1
+#           - uses: sfdx-actions/setup-sfdx@v1
+#             with:
+#               sfdx-auth-url: ${{ secrets.SFDX_DEV_HUB_AUTH_URL }}
+#           - name: sfdx-test-run
+#             run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
+#           - name: sfdx-test-run
+#             run: sfdx force:apex:test:run -l RunLocalTests -w 30
+          - uses: actions/checkout@v2
+          - name: Install sfdx
+            run: |
+              mkdir sfdx
+              wget -qO- https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz | tar xJ -C sfdx --strip-components 1
+              ./sfdx/install
+              echo ${{ secrets.SFDX_DEV_HUB_AUTH_URL }} > sfdx_auth
+              sfdx auth:sfdxurl:store -f sfdx_auth -d
+          - run: |
+              sfdx force:org:list
+          - name: Set up Python
+            uses: actions/setup-python@v1
             with:
-              sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
-          - name: sfdx-test-run
-            run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
-          - name: sfdx-test-run
-            run: sfdx force:apex:test:run -l RunLocalTests -w 30
+              python-version: "3.8"
+          - name: Install CumulusCI
+            run: |
+              python -m pip install -U pip
+              pip install cumulusci
+          - run: |
+              cci flow run ci_feature --org dev --delete-org
